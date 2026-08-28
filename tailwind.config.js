@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Brand colors from logo (blue) - single accent color per design-taste-frontend
+        // Brand colors from Menes Coffee logo
         brand: {
           50: '#eff6ff',
           100: '#dbeafe',
@@ -21,7 +21,7 @@ export default {
           900: '#1e3a8a',
           950: '#172554',
         },
-        // Warm neutrals for coffee shop feel (not terracotta/orange)
+        // Warm neutrals for coffee shop feel
         warm: {
           50: '#fafaf9',
           100: '#f5f5f4',
@@ -72,7 +72,7 @@ export default {
           400: '#dcdcdc',
           500: '#cacaca',
         },
-        // Accent gold for featured/popular (subtle)
+        // Accent gold for featured/popular
         accent: {
           gold: '#c9a962',
         },
@@ -80,11 +80,14 @@ export default {
       fontFamily: {
         sans: ['Manrope', 'system-ui', 'sans-serif'],
         serif: ['DM Serif Display', 'Georgia', 'serif'],
+        display: ['Manrope', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         'token-sm': '4px',
         'token-md': '8px',
         'token-lg': '12px',
+        'token-xl': '20px',
+        'token-2xl': '28px',
         'token-full': '9999px',
       },
       spacing: {
@@ -96,6 +99,7 @@ export default {
         'token-2xl': '48px',
         'token-3xl': '64px',
         'token-4xl': '96px',
+        'token-5xl': '128px',
       },
       maxWidth: {
         'container-sm': '640px',
@@ -108,12 +112,58 @@ export default {
         'token-fast': '150ms',
         'token-base': '200ms',
         'token-slow': '300ms',
+        'fluid': '700ms',
+        'fluid-slow': '1000ms',
+      },
+      transitionTimingFunction: {
+        'fluid': 'cubic-bezier(0.32, 0.72, 0, 1)',
+        'fluid-out': 'cubic-bezier(0.16, 1, 0.3, 1)',
+        'fluid-in': 'cubic-bezier(0.55, 0, 1, 0.45)',
+        'bounce-soft': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
       },
       boxShadow: {
         'token-sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
         'token-md': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
         'token-lg': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
         'token-xl': '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+        'glass': '0 8px 32px 0 rgb(0 0 0 / 0.12)',
+        'glass-lg': '0 16px 48px 0 rgb(0 0 0 / 0.16)',
+        'inner-glow': 'inset 0 1px 1px 0 rgb(255 255 255 / 0.15)',
+        'brand-glow': '0 0 40px -8px rgb(37 99 235 / 0.3)',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.8s cubic-bezier(0.32, 0.72, 0, 1) forwards',
+        'slide-up': 'slideUp 0.8s cubic-bezier(0.32, 0.72, 0, 1) forwards',
+        'slide-up-delayed': 'slideUp 0.8s cubic-bezier(0.32, 0.72, 0, 1) 0.15s forwards',
+        'scale-in': 'scaleIn 0.6s cubic-bezier(0.32, 0.72, 0, 1) forwards',
+        'float': 'float 6s ease-in-out infinite',
+        'grain': 'grain 8s steps(10) infinite',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(24px) blur(4px)' },
+          '100%': { opacity: '1', transform: 'translateY(0) blur(0)' },
+        },
+        scaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        grain: {
+          '0%, 100%': { transform: 'translate(0, 0)' },
+          '10%': { transform: 'translate(-5%, -10%)' },
+          '30%': { transform: 'translate(3%, -15%)' },
+          '50%': { transform: 'translate(12%, 9%)' },
+          '70%': { transform: 'translate(9%, 4%)' },
+          '90%': { transform: 'translate(-1%, 7%)' },
+        },
       },
     },
   },

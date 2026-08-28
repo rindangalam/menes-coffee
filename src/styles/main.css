@@ -67,6 +67,8 @@
     --radius-sm: 4px;
     --radius-md: 8px;
     --radius-lg: 12px;
+    --radius-xl: 20px;
+    --radius-2xl: 28px;
     --radius-full: 9999px;
 
     --spacing-xs: 4px;
@@ -77,6 +79,7 @@
     --spacing-2xl: 48px;
     --spacing-3xl: 64px;
     --spacing-4xl: 96px;
+    --spacing-5xl: 128px;
 
     --container-sm: 640px;
     --container-md: 768px;
@@ -87,6 +90,7 @@
     --duration-fast: 150ms;
     --duration-base: 200ms;
     --duration-slow: 300ms;
+    --duration-fluid: 700ms;
 
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -100,6 +104,7 @@
 
   body {
     @apply font-sans text-ink-900 bg-warm-50 antialiased;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -117,7 +122,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 font-medium rounded-token-md transition-all duration-token-base focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 font-medium rounded-token-full transition-all duration-token-base focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-primary {
@@ -133,7 +138,7 @@
   }
 
   .input {
-    @apply w-full px-4 py-3 rounded-token-md border border-warm-300 bg-white text-ink-900 placeholder:text-ink-400 transition-all duration-token-fast focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent disabled:bg-warm-50 disabled:cursor-not-allowed;
+    @apply w-full px-4 py-3 rounded-token-lg border border-warm-300 bg-white text-ink-900 placeholder:text-ink-400 transition-all duration-token-fast focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent disabled:bg-warm-50 disabled:cursor-not-allowed;
   }
 
   .input-error {
@@ -177,7 +182,7 @@
   }
 
   .card {
-    @apply bg-white rounded-token-lg shadow-token-sm border border-warm-100 overflow-hidden transition-shadow duration-token-base hover:shadow-token-md;
+    @apply bg-white rounded-token-xl shadow-token-sm border border-warm-100 overflow-hidden transition-all duration-token-base hover:shadow-token-lg;
   }
 
   .container-main {
@@ -185,11 +190,26 @@
   }
 
   .section {
-    @apply py-token-3xl;
+    @apply py-token-4xl;
   }
 
   .section-dark {
     @apply section bg-ink-950 text-white;
+  }
+
+  /* Double-Bezel outer shell */
+  .bezel-outer {
+    @apply p-1.5 bg-warm-100/60 border border-warm-200/50 rounded-token-2xl;
+  }
+
+  /* Double-Bezel inner core */
+  .bezel-inner {
+    @apply bg-white rounded-token-2xl overflow-hidden shadow-inner-glow;
+  }
+
+  /* Eyebrow tag */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-token-full text-[10px] uppercase tracking-[0.2em] font-medium bg-brand-50 text-brand-600;
   }
 }
 
@@ -198,12 +218,35 @@
     text-wrap: balance;
   }
 
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
   .animate-fade-in {
-    animation: fadeIn var(--duration-base) ease-out;
+    animation: fadeIn var(--duration-fluid) cubic-bezier(0.32, 0.72, 0, 1) forwards;
   }
 
   .animate-slide-up {
-    animation: slideUp var(--duration-slow) ease-out;
+    animation: slideUp var(--duration-fluid) cubic-bezier(0.32, 0.72, 0, 1) forwards;
+    opacity: 0;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  .will-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.32, 0.72, 0, 1), transform 0.9s cubic-bezier(0.32, 0.72, 0, 1);
+    will-change: transform, opacity;
+  }
+
+  .will-animate.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   @keyframes fadeIn {
@@ -214,11 +257,11 @@
   @keyframes slideUp {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(32px) blur(8px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) blur(0);
     }
   }
 }
