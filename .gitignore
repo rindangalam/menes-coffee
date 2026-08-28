@@ -32,3 +32,6 @@ coverage
 
 # Local tooling
 supabase/.temp
+
+# Staging / curation scratch files (reels & photo candidates)
+public/images/candidates
