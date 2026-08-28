@@ -16,7 +16,7 @@ const variantClasses = {
   confirmed: 'badge-confirmed',
   cancelled: 'badge-cancelled',
   featured: 'badge bg-accent-gold/20 text-accent-gold border border-accent-gold/30',
-  popular: 'badge bg-terracotta-100 text-terracotta-800',
+  popular: 'badge bg-brand-100 text-brand-800',
 }
 </script>
 

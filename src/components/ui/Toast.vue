@@ -7,7 +7,7 @@ let toastId = 0
 
 const variantClasses = {
   success: 'bg-sage-600 text-white',
-  error: 'bg-terracotta-600 text-white',
+  error: 'bg-brand-600 text-white',
   warning: 'bg-amber-600 text-white',
   info: 'bg-ink-600 text-white',
 }

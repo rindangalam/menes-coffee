@@ -109,7 +109,7 @@ const triggerFileInput = () => {
       :class="[
         'border-2 border-dashed rounded-token-lg p-8 text-center transition-colors',
         uploading ? 'opacity-50 pointer-events-none' : '',
-        dragActive ? 'border-terracotta-500 bg-terracotta-50' : 'border-ink-300 hover:border-terracotta-400',
+        dragActive ? 'border-brand-500 bg-brand-50' : 'border-ink-300 hover:border-brand-400',
         preview ? 'border-transparent bg-transparent p-0' : '',
       ]"
       @drop="handleDrop"
@@ -140,7 +140,7 @@ const triggerFileInput = () => {
           class="absolute top-2 right-2 w-8 h-8 bg-white/90 hover:bg-white rounded-token-full flex items-center justify-center shadow-token-sm transition-colors"
           aria-label="Hapus gambar"
         >
-          <Icons name="XIcon" class="w-4 h-4 text-terracotta-600" />
+          <Icons name="XIcon" class="w-4 h-4 text-brand-600" />
         </button>
       </div>
 
@@ -165,7 +165,7 @@ const triggerFileInput = () => {
 
     <!-- Current Image Info -->
     <div v-if="modelValue && !preview" class="p-3 bg-ink-50 rounded-token-md text-sm text-ink-600">
-      Gambar saat ini: <a :href="modelValue" target="_blank" rel="noopener noreferrer" class="text-terracotta-600 hover:underline truncate block">{{ modelValue }}</a>
+      Gambar saat ini: <a :href="modelValue" target="_blank" rel="noopener noreferrer" class="text-brand-600 hover:underline truncate block">{{ modelValue }}</a>
     </div>
   </div>
 </template>

@@ -22,7 +22,7 @@ const emit = defineEmits(['update:modelValue', 'blur', 'focus'])
   <div class="w-full">
     <label v-if="label" :for="inputId" class="label">
       {{ label }}
-      <span v-if="required" class="text-terracotta-500 ml-0.5" aria-hidden="true">*</span>
+      <span v-if="required" class="text-brand-500 ml-0.5" aria-hidden="true">*</span>
     </label>
     <input
       :id="inputId"
