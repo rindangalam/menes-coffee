@@ -1,11 +1,29 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, onUnmounted, nextTick } from 'vue'
 import { supabase } from '@/lib/supabase'
 import Skeleton from '@/components/ui/Skeleton.vue'
 import Badge from '@/components/ui/Badge.vue'
 import MenuCard from '@/components/public/MenuCard.vue'
 import Icons from '@/components/ui/Icons.vue'
 import { useSEO } from '@/composables/useSEO'
+
+let observer = null
+
+const setupObserver = () => {
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-visible')
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' })
+}
+
+const observeReveal = () => {
+  const els = document.querySelectorAll('.will-animate')
+  els.forEach(el => observer.observe(el))
+}
 
 const { meta: seoMeta } = useSEO({
   title: 'Menu Menes Coffee & Eatery | Kopi Signature, Makanan, Pizza, Pasta, Dessert',
@@ -41,6 +59,9 @@ const filteredMenu = computed(() => {
 })
 
 onMounted(async () => {
+  setupObserver()
+  observeReveal()
+
   try {
     // Fetch categories
     const { data: cats, error: catsError } = await supabase
@@ -78,31 +99,46 @@ onMounted(async () => {
     console.error('Failed to load menu:', err)
   } finally {
     loading.value = false
+    await nextTick()
+    observeReveal()
   }
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
 })
 </script>
 
 <template>
   <div class="min-h-screen bg-paper-50">
-    <section class="section bg-white border-b border-ink-100">
-      <div class="container-main">
-        <h1 class="font-serif text-4xl md:text-5xl text-ink-900 mb-2">Menu</h1>
-        <p class="text-ink-500">Kopi signature, makanan berat, pizza, pasta, dan dessert</p>
+    <section class="bg-white border-b border-ink-100 overflow-hidden">
+      <div class="container-main py-token-4xl">
+        <div class="max-w-3xl mx-auto text-center">
+          <div class="eyebrow mb-6 animate-slide-up" style="--reveal-delay: 0ms;">Menu Kami</div>
+          <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.05] text-ink-900 mb-6 animate-slide-up" style="--reveal-delay: 120ms;">
+            Rasa yang
+            <em class="text-brand-600 not-italic" style="font-family: var(--font-serif); font-style: italic;">menyalakan</em>
+            semalam
+          </h1>
+          <p class="text-lg text-ink-500 max-w-xl mx-auto animate-slide-up" style="--reveal-delay: 240ms;">
+            Kopi signature, makanan berat khas Padang, pizza, pasta, dan dessert — tersaji dari pagi hingga dini hari.
+          </p>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <div class="container-main">
         <!-- Category Tabs -->
-        <div class="flex flex-wrap gap-2 mb-8" role="tablist" aria-label="Kategori menu">
+        <div class="flex flex-wrap gap-2 mb-10 justify-center" role="tablist" aria-label="Kategori menu">
           <button
             v-for="cat in categories"
             :key="cat.id"
             :class="[
-              'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
+              'px-5 py-2.5 rounded-token-full text-sm font-medium transition-all duration-token-fluid',
               activeCategory === cat.id
-                ? 'bg-brand-600 text-white shadow-token-md'
-                : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
+                ? 'bg-ink-950 text-white shadow-brand-glow scale-[1.02]'
+                : 'bg-ink-100/70 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeCategory = cat.id"
             role="tab"
@@ -112,10 +148,10 @@ onMounted(async () => {
           </button>
           <button
             :class="[
-              'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
+              'px-5 py-2.5 rounded-token-full text-sm font-medium transition-all duration-token-fluid',
               activeCategory === null
-                ? 'bg-brand-600 text-white shadow-token-md'
-                : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
+                ? 'bg-ink-950 text-white shadow-brand-glow scale-[1.02]'
+                : 'bg-ink-100/70 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeCategory = null"
             role="tab"
@@ -131,11 +167,14 @@ onMounted(async () => {
         </div>
 
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <MenuCard
-            v-for="item in filteredMenu"
+          <div
+            class="will-animate"
+            :style="{ '--reveal-delay': (index % 3) * 80 + 'ms' }"
+            v-for="(item, index) in filteredMenu"
             :key="item.id"
-            :item="item"
-          />
+          >
+            <MenuCard :item="item" />
+          </div>
         </div>
 
         <div v-if="!loading && filteredMenu.length === 0" class="col-span-full text-center py-12">

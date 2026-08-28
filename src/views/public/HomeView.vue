@@ -43,6 +43,34 @@ const validPromos = computed(() => {
   })
 })
 
+// Hero slideshow
+const HERO_FALLBACK = [
+  { src: '/images/hero.jpg', alt: 'Menes Coffee & Eatery interior', caption: 'Indoor yang cozy' },
+  { src: '/images/gallery-01-no-rush.jpg', alt: 'Suasana santai Menes', caption: 'No rush, no noise' },
+  { src: '/images/gallery-02-lifestyle.jpg', alt: 'Menikmati malam di Menes', caption: 'Menikmati malam' },
+  { src: '/images/gallery-06-study.jpg', alt: 'Area kerja dan studi', caption: 'Studi & kerja' },
+  { src: '/images/gallery-11-perfection.jpg', alt: 'Kopi signature Menes', caption: 'Kopi signature' },
+]
+
+const heroSlides = ref(HERO_FALLBACK.map(h => ({ ...h })))
+const activeSlide = ref(0)
+let slideTimer = null
+
+const goToSlide = (i) => {
+  activeSlide.value = (i + heroSlides.value.length) % heroSlides.value.length
+  restartSlide()
+}
+
+const nextSlide = () => goToSlide(activeSlide.value + 1)
+const prevSlide = () => goToSlide(activeSlide.value - 1)
+
+const restartSlide = () => {
+  if (slideTimer) clearInterval(slideTimer)
+  slideTimer = setInterval(() => {
+    activeSlide.value = (activeSlide.value + 1) % heroSlides.value.length
+  }, 6000)
+}
+
 const experienceItems = [
   {
     icon: 'HomeIcon',
@@ -70,6 +98,15 @@ const experienceItems = [
   },
 ]
 
+const EXPERIENCE_FALLBACK = {
+  type: 'video',
+  src: '/images/candidates/reels/videos/DGc7nXwpgas.mp4',
+  poster: '/images/candidates/reels/DGc7nXwpgas.jpg',
+  caption: 'Great coffee starts with great control',
+}
+
+const experienceMedia = ref({ ...EXPERIENCE_FALLBACK })
+
 const onReveal = () => {
   const els = document.querySelectorAll('.will-animate')
   els.forEach(el => observer.observe(el))
@@ -86,9 +123,49 @@ const setupObserver = () => {
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' })
 }
 
+const loadPlacementMedia = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('gallery')
+      .select('*')
+      .in('category', ['hero', 'experience'])
+      .order('sort_order', { ascending: true })
+
+    if (error) throw error
+    if (!data || data.length === 0) return
+
+    const heroItems = data.filter(i => i.category === 'hero')
+    const expItems = data.filter(i => i.category === 'experience')
+
+    if (heroItems.length > 0) {
+      heroSlides.value = heroItems.map(i => ({
+        src: i.image_url,
+        alt: i.caption || 'Menes Coffee & Eatery',
+        caption: i.caption || 'Menes Coffee & Eatery',
+      }))
+      activeSlide.value = 0
+      restartSlide()
+    }
+
+    const exp = expItems[0]
+    if (exp) {
+      experienceMedia.value = {
+        type: exp.media_type,
+        src: exp.media_type === 'video' ? exp.video_url : exp.image_url,
+        poster: exp.media_type === 'video' ? (exp.image_url || undefined) : '',
+        caption: exp.caption || 'Menes Coffee & Eatery',
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load placement media:', err)
+  }
+}
+
 onMounted(async () => {
   setupObserver()
   onReveal()
+  restartSlide()
+  loadPlacementMedia()
 
   try {
     const [{ data: menuData }, { data: postsData }, { data: testData }] = await Promise.all([
@@ -139,6 +216,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   if (observer) observer.disconnect()
+  if (slideTimer) clearInterval(slideTimer)
 })
 
 // SEO
@@ -155,14 +233,32 @@ const { meta: seoMeta } = useSEO({
 
     <!-- Hero Section -->
     <section class="relative min-h-[100dvh] flex items-end md:items-center overflow-hidden bg-ink-950 text-white">
-      <!-- Background image with parallax scale -->
+      <!-- Slideshow background -->
       <div class="absolute inset-0 z-0 will-change-transform">
-        <img
-          src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1920&q=80"
-          alt="Menes Coffee & Eatery interior"
-          class="w-full h-full object-cover opacity-40 scale-105"
-        />
+        <div
+          v-for="(slide, i) in heroSlides"
+          :key="slide.src"
+          class="absolute inset-0 transition-opacity duration-[1500ms] ease-in-out"
+          :class="i === activeSlide ? 'opacity-100' : 'opacity-0'"
+        >
+          <img
+            :src="slide.src"
+            :alt="slide.alt"
+            class="w-full h-full object-cover scale-105"
+            loading="eager"
+          />
+        </div>
         <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/60 to-ink-950/30"></div>
+      </div>
+
+      <!-- Slide caption chip -->
+      <div class="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 hidden md:block">
+        <p
+          :key="'cap-' + activeSlide"
+          class="px-4 py-1.5 rounded-token-full bg-white/10 backdrop-blur-sm border border-white/15 text-ink-200 text-xs uppercase tracking-[0.2em] text-center animate-fade-in"
+        >
+          {{ heroSlides[activeSlide].caption }}
+        </p>
       </div>
 
       <div class="relative z-10 container-main px-6 pt-32 pb-24 md:py-32 w-full">
@@ -211,12 +307,32 @@ const { meta: seoMeta } = useSEO({
         </div>
       </div>
 
-      <!-- Scroll indicator -->
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-ink-400 animate-fade-in" style="animation-delay: 800ms;">
-        <span class="text-[10px] uppercase tracking-[0.25em]">Scroll</span>
-        <div class="w-6 h-10 rounded-full border-2 border-ink-600 flex justify-center pt-2">
-          <div class="w-1 h-2 rounded-token-full bg-ink-400 animate-bounce"></div>
-        </div>
+      <!-- Slideshow arrows -->
+      <button
+        @click="prevSlide"
+        aria-label="Slide sebelumnya"
+        class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-token-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/15 flex items-center justify-center text-white transition-colors"
+      >
+        <Icons name="ChevronLeftIcon" class="w-5 h-5" />
+      </button>
+      <button
+        @click="nextSlide"
+        aria-label="Slide berikutnya"
+        class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-token-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/15 flex items-center justify-center text-white transition-colors"
+      >
+        <Icons name="ChevronRightIcon" class="w-5 h-5" />
+      </button>
+
+      <!-- Slideshow dots -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2.5">
+        <button
+          v-for="(slide, i) in heroSlides"
+          :key="'dot-' + i"
+          @click="goToSlide(i)"
+          :aria-label="`Slide ${i + 1}`"
+          class="h-2 rounded-token-full transition-all duration-500"
+          :class="i === activeSlide ? 'w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/70'"
+        ></button>
       </div>
     </section>
 
@@ -277,18 +393,26 @@ const { meta: seoMeta } = useSEO({
             </div>
           </div>
 
-          <!-- Card 3: Dark late night -->
+          <!-- Card 3: Brew video reel -->
           <div class="will-animate">
             <div class="bezel-outer h-full">
-              <div class="bezel-inner p-8 flex flex-col justify-between min-h-[200px] bg-ink-950 text-white">
-                <div class="w-12 h-12 rounded-token-2xl bg-white/10 flex items-center justify-center">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="font-serif text-xl mb-2">Late Night</h3>
-                  <p class="text-ink-400 text-sm">Buka hingga jam 04:00 — nongkrong malam favorit.</p>
+              <div class="bezel-inner relative h-full min-h-[200px] overflow-hidden bg-ink-950 text-white">
+                <video
+                  :src="experienceMedia.src"
+                  :poster="experienceMedia.poster"
+                  class="absolute inset-0 w-full h-full object-cover opacity-70"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                ></video>
+                <div class="absolute inset-0 bg-gradient-to-t from-ink-950/85 to-transparent"></div>
+                <div class="absolute inset-x-0 bottom-0 p-5">
+                  <span class="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-amber-300 mb-1">
+                    <Icons name="PlayIcon" class="w-3 h-3" /> Reel
+                  </span>
+                  <h3 class="font-serif text-lg leading-snug">Great coffee starts with <span class="italic text-amber-300">great control</span></h3>
                 </div>
               </div>
             </div>

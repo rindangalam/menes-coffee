@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { supabase } from '@/lib/supabase'
 import Button from '@/components/ui/Button.vue'
 import Input from '@/components/ui/Input.vue'
@@ -7,6 +7,24 @@ import Select from '@/components/ui/Select.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Icons from '@/components/ui/Icons.vue'
 import { useSEO } from '@/composables/useSEO'
+
+let observer = null
+
+onMounted(() => {
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-visible')
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' })
+  document.querySelectorAll('.will-animate').forEach(el => observer.observe(el))
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
 
 const { meta: seoMeta } = useSEO({
   title: 'Reservasi Meja - Menes Coffee & Eatery Padang',
@@ -141,18 +159,30 @@ const resetForm = () => {
 
 <template>
   <div class="min-h-screen bg-paper-50">
-    <section class="section bg-white border-b border-ink-100">
-      <div class="container-main">
-        <h1 class="font-serif text-4xl md:text-5xl text-ink-900 mb-2">Reservasi Meja</h1>
-        <p class="text-ink-500">Dapatkan meja favoritmu — cocok untuk rombongan, acara, atau sekadar nongkrong santai</p>
+    <section class="bg-white border-b border-ink-100 overflow-hidden">
+      <div class="container-main py-token-4xl">
+        <div class="max-w-3xl mx-auto text-center">
+          <div class="eyebrow mb-6 animate-slide-up" style="--reveal-delay: 0ms;">Reservasi</div>
+          <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.05] text-ink-900 mb-6 animate-slide-up" style="--reveal-delay: 120ms;">
+            Amankan
+            <em class="text-brand-600" style="font-family: var(--font-serif); font-style: italic;">meja</em>
+            favoritmu
+          </h1>
+          <p class="text-lg text-ink-500 max-w-xl mx-auto animate-slide-up" style="--reveal-delay: 240ms;">
+            Cocok untuk rombongan, acara buka bersama, atau sekadar nongkrong santai. Bayar di tempat, konfirmasi via WhatsApp.
+          </p>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <div class="container-main">
         <div class="max-w-2xl mx-auto">
-          <div class="card p-8">
-            <h2 class="font-serif text-2xl text-ink-900 mb-6 text-center">Form Reservasi</h2>
+          <div class="card p-8 will-animate">
+            <div class="text-center mb-8">
+              <h2 class="font-serif text-2xl text-ink-900">Form Reservasi</h2>
+              <p class="text-ink-500 text-sm mt-2">Isi detail di bawah — tim kami akan mengonfirmasi secepatnya.</p>
+            </div>
             
             <form @submit.prevent="handleSubmit" class="space-y-5" novalidate v-if="!submitted">
               <div v-if="submitError" class="p-3 bg-brand-50 border border-brand-200 rounded-token-md text-brand-700 text-sm" role="alert">
@@ -251,16 +281,24 @@ const resetForm = () => {
             </div>
           </div>
 
-          <div class="mt-8 p-6 bg-ink-50 rounded-token-lg">
-            <h4 class="font-medium text-ink-900 mb-3 flex items-center gap-2">
-              <Icons name="CalendarIcon" class="w-5 h-5 text-brand-600" />
+          <div class="mt-8 p-6 bg-ink-950 text-white rounded-token-lg will-animate">
+            <h4 class="font-medium mb-4 flex items-center gap-2">
+              <Icons name="CalendarIcon" class="w-5 h-5 text-brand-400" />
               Informasi Penting
             </h4>
-            <ul class="text-ink-600 text-sm space-y-2">
-              <li class="flex items-start gap-2">• Reservasi dikonfirmasi via WhatsApp/telepon oleh tim kami</li>
-              <li class="flex items-start gap-2">• Meja dijamin selama 15 menit dari jam reservasi</li>
-              <li class="flex items-start gap-2">• Untuk rombongan >10 orang, hubungi kami langsung</li>
-              <li class="flex items-start gap-2">• Bisa dibatalkan via balasan konfirmasi WhatsApp</li>
+            <ul class="text-ink-300 text-sm space-y-2.5">
+              <li class="flex items-start gap-2">
+                <span class="text-brand-400">→</span> Reservasi dikonfirmasi via WhatsApp/telepon oleh tim kami
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-brand-400">→</span> Meja dijamin selama 15 menit dari jam reservasi
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-brand-400">→</span> Untuk rombongan &gt;10 orang, hubungi kami langsung
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-brand-400">→</span> Bisa dibatalkan via balasan konfirmasi WhatsApp
+              </li>
             </ul>
           </div>
         </div>

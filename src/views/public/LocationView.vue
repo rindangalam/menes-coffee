@@ -1,10 +1,30 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { supabase } from '@/lib/supabase'
 import Button from '@/components/ui/Button.vue'
 import Skeleton from '@/components/ui/Skeleton.vue'
 import Icons from '@/components/ui/Icons.vue'
 import { useSEO } from '@/composables/useSEO'
+
+let observer = null
+
+const observeReveal = () => {
+  if (!observer) {
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' })
+  }
+  document.querySelectorAll('.will-animate').forEach(el => observer.observe(el))
+}
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
 
 const { meta: seoMeta } = useSEO({
   title: 'Lokasi & Jam Buka - Menes Coffee & Eatery Padang',
@@ -49,6 +69,7 @@ const formatTime = (timeStr) => {
 }
 
 onMounted(async () => {
+  observeReveal()
   try {
     const { data } = await supabase
       .from('settings')
@@ -66,16 +87,27 @@ onMounted(async () => {
     }
   } catch (err) {
     console.error('Failed to load location settings:', err)
+  } finally {
+    observeReveal()
   }
 })
 </script>
 
 <template>
   <div class="min-h-screen">
-    <section class="section bg-white border-b border-ink-100">
-      <div class="container-main">
-        <h1 class="font-serif text-4xl md:text-5xl text-ink-900 mb-2">Lokasi & Jam Buka</h1>
-        <p class="text-ink-500">Temukan kami di jantung Padang</p>
+    <section class="bg-white border-b border-ink-100 overflow-hidden">
+      <div class="container-main py-token-4xl">
+        <div class="max-w-3xl mx-auto text-center">
+          <div class="eyebrow mb-6 animate-slide-up" style="--reveal-delay: 0ms;">Lokasi & Jam Buka</div>
+          <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.05] text-ink-900 mb-6 animate-slide-up" style="--reveal-delay: 120ms;">
+            Temukan kami di
+            <em class="text-brand-600" style="font-family: var(--font-serif); font-style: italic;">jantung</em>
+            Padang
+          </h1>
+          <p class="text-lg text-ink-500 max-w-xl mx-auto animate-slide-up" style="--reveal-delay: 240ms;">
+            Buka setiap hari 08.00–04.00. Late night hangout spot dengan area indoor & outdoor, photobox, dan pet-friendly.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -84,7 +116,7 @@ onMounted(async () => {
         <div class="grid lg:grid-cols-2 gap-12">
           <!-- Info Panel -->
           <div>
-            <div class="card p-8 h-full">
+            <div class="card p-8 h-full will-animate">
               <h2 class="font-serif text-2xl md:text-3xl text-ink-900 mb-6">Kunjungi Kami</h2>
               
               <address class="text-ink-600 not-italic mb-8 leading-relaxed">
@@ -156,16 +188,20 @@ onMounted(async () => {
 
         <!-- Opening Hours Detail -->
         <div class="mt-12">
-          <h3 class="font-serif text-2xl text-ink-900 mb-6 text-center">Jam Operasional Detail</h3>
-          <div class="grid grid-cols-2 md:grid-cols-7 gap-3">
+          <div class="text-center mb-8 will-animate">
+            <div class="eyebrow mb-4">Jam Operasional</div>
+            <h3 class="font-serif text-3xl md:text-4xl text-ink-900">Detail Jam Buka</h3>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
             <div
-              v-for="day in days"
+              v-for="(day, i) in days"
               :key="day.key"
-              class="card p-4 text-center"
+              class="card p-4 text-center will-animate group hover:-translate-y-1 transition-transform duration-token-fluid"
+              :style="{ '--reveal-delay': (i % 7) * 60 + 'ms' }"
             >
-              <p class="font-medium text-ink-900 capitalize mb-1">{{ day.label }}</p>
+              <p class="font-medium text-ink-900 mb-1">{{ day.label }}</p>
               <p class="text-brand-600 font-semibold" v-if="!getDayInfo(day.key).closed">
-                {{ formatTime(getDayInfo(day.key).open) }} – {{ formatTime(getDayInfo(day.key).close) }}
+                {{ formatTime(getDayInfo(day.key).open) }}<span class="text-ink-300 mx-1">–</span>{{ formatTime(getDayInfo(day.key).close) }}
               </p>
               <p class="text-ink-400 text-sm" v-else>Tutup</p>
             </div>
@@ -173,17 +209,21 @@ onMounted(async () => {
         </div>
 
         <!-- Identity Section -->
-        <div class="mt-16 p-8 bg-ink-950 rounded-token-xl text-center text-white">
-          <h3 class="font-serif text-2xl md:text-3xl mb-4">Bukan Cuma Tempat Ngopi</h3>
-          <p class="text-ink-300 max-w-2xl mx-auto mb-6 leading-relaxed">
-            Menes buka hingga jam 04:00 bukan sekadar angka jam — tapi identitas kami sebagai tempat nongkrong malam
-            yang nyaman, aman, dan penuh suasana. Di sini jam malam terasa berbeda: lebih tenang, lebih dekat, lebih asik.
-          </p>
-          <div class="flex flex-wrap gap-3 justify-center">
-            <span class="badge bg-ink-800 text-ink-300 border border-ink-700 px-3 py-1">Late Night Vibes</span>
-            <span class="badge bg-ink-800 text-ink-300 border border-ink-700 px-3 py-1">Safe & Comfortable</span>
-            <span class="badge bg-ink-800 text-ink-300 border border-ink-700 px-3 py-1">Perfect untuk Bukber</span>
-            <span class="badge bg-ink-800 text-ink-300 border border-ink-700 px-3 py-1">Meeting Santai Malam</span>
+        <div class="mt-16 p-8 bg-ink-950 rounded-token-xl text-center text-white relative overflow-hidden will-animate">
+          <div class="absolute -top-20 -right-20 w-72 h-72 bg-brand-600/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-20 -left-20 w-72 h-72 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="relative">
+            <h3 class="font-serif text-2xl md:text-3xl mb-4">Bukan Cuma Tempat Ngopi</h3>
+            <p class="text-ink-300 max-w-2xl mx-auto mb-6 leading-relaxed">
+              Menes buka hingga jam 04:00 bukan sekadar angka jam — tapi identitas kami sebagai tempat nongkrong malam
+              yang nyaman, aman, dan penuh suasana. Di sini jam malam terasa berbeda: lebih tenang, lebih dekat, lebih asik.
+            </p>
+            <div class="flex flex-wrap gap-3 justify-center">
+              <span class="badge bg-brand-600/20 text-brand-200 border border-brand-500/30 px-3 py-1">Late Night Vibes</span>
+              <span class="badge bg-ink-800 text-ink-300 border border-ink-700 px-3 py-1">Safe & Comfortable</span>
+              <span class="badge bg-ink-800 text-ink-300 border border-ink-700 px-3 py-1">Perfect untuk Bukber</span>
+              <span class="badge bg-ink-800 text-ink-300 border border-ink-700 px-3 py-1">Meeting Santai Malam</span>
+            </div>
           </div>
         </div>
       </div>

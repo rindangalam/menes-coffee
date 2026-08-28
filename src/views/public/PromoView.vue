@@ -1,10 +1,26 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, onUnmounted, nextTick } from 'vue'
 import { supabase } from '@/lib/supabase'
 import Skeleton from '@/components/ui/Skeleton.vue'
 import Badge from '@/components/ui/Badge.vue'
 import Icons from '@/components/ui/Icons.vue'
 import { useSEO } from '@/composables/useSEO'
+
+let observer = null
+
+const observeReveal = () => {
+  if (!observer) {
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' })
+  }
+  document.querySelectorAll('.will-animate').forEach(el => observer.observe(el))
+}
 
 const { meta: seoMeta } = useSEO({
   title: 'Promo & Blog - Menes Coffee & Eatery Padang',
@@ -46,6 +62,7 @@ const formatDate = (dateStr) => {
 
 const fetchPosts = async () => {
   loading.value = true
+  observeReveal()
   try {
     const { data, error } = await supabase
       .from('posts')
@@ -59,31 +76,46 @@ const fetchPosts = async () => {
     console.error('Failed to load posts:', err)
   } finally {
     loading.value = false
+    await nextTick()
+    observeReveal()
   }
 }
 
 onMounted(fetchPosts)
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
 </script>
 
 <template>
   <div class="min-h-screen bg-paper-50">
-    <section class="section bg-white border-b border-ink-100">
-      <div class="container-main">
-        <h1 class="font-serif text-4xl md:text-5xl text-ink-900 mb-2">Promo & Blog</h1>
-        <p class="text-ink-500">Promo terbaru, event, dan cerita dari Menes</p>
+    <section class="bg-white border-b border-ink-100 overflow-hidden">
+      <div class="container-main py-token-4xl">
+        <div class="max-w-3xl mx-auto text-center">
+          <div class="eyebrow mb-6 animate-slide-up" style="--reveal-delay: 0ms;">Promo & Blog</div>
+          <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.05] text-ink-900 mb-6 animate-slide-up" style="--reveal-delay: 120ms;">
+            Kabar
+            <em class="text-brand-600" style="font-family: var(--font-serif); font-style: italic;">segar</em>
+            dari Menes
+          </h1>
+          <p class="text-lg text-ink-500 max-w-xl mx-auto animate-slide-up" style="--reveal-delay: 240ms;">
+            Promo terbaru, event spesial, dan cerita menarik dari kafe favorit di Padang.
+          </p>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <div class="container-main">
         <!-- Type Filter -->
-        <div class="flex flex-wrap gap-2 mb-10" role="tablist" aria-label="Tipe konten">
+        <div class="flex flex-wrap gap-2 mb-10 justify-center" role="tablist" aria-label="Tipe konten">
           <button
             :class="[
-              'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
+              'px-5 py-2.5 rounded-token-full text-sm font-medium transition-all duration-token-fluid',
               activeType === 'promo'
-                ? 'bg-brand-600 text-white shadow-token-md'
-                : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
+                ? 'bg-ink-950 text-white shadow-brand-glow scale-[1.02]'
+                : 'bg-ink-100/70 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeType = 'promo'"
             role="tab"
@@ -93,10 +125,10 @@ onMounted(fetchPosts)
           </button>
           <button
             :class="[
-              'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
+              'px-5 py-2.5 rounded-token-full text-sm font-medium transition-all duration-token-fluid',
               activeType === 'article'
-                ? 'bg-brand-600 text-white shadow-token-md'
-                : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
+                ? 'bg-ink-950 text-white shadow-brand-glow scale-[1.02]'
+                : 'bg-ink-100/70 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeType = 'article'"
             role="tab"
@@ -106,10 +138,10 @@ onMounted(fetchPosts)
           </button>
           <button
             :class="[
-              'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
+              'px-5 py-2.5 rounded-token-full text-sm font-medium transition-all duration-token-fluid',
               activeType === 'all'
-                ? 'bg-brand-600 text-white shadow-token-md'
-                : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
+                ? 'bg-ink-950 text-white shadow-brand-glow scale-[1.02]'
+                : 'bg-ink-100/70 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeType = 'all'"
             role="tab"
@@ -126,9 +158,10 @@ onMounted(fetchPosts)
 
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <article
-            v-for="post in filteredPosts"
+            v-for="(post, index) in filteredPosts"
             :key="post.id"
-            class="card group"
+            class="card group will-animate"
+            :style="{ '--reveal-delay': (index % 3) * 80 + 'ms' }"
           >
             <div class="relative aspect-[16/10] overflow-hidden">
               <img

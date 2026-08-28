@@ -1,10 +1,28 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { supabase } from '@/lib/supabase'
 import Button from '@/components/ui/Button.vue'
 import Input from '@/components/ui/Input.vue'
 import Icons from '@/components/ui/Icons.vue'
 import { useSEO } from '@/composables/useSEO'
+
+let observer = null
+
+onMounted(() => {
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-visible')
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' })
+  document.querySelectorAll('.will-animate').forEach(el => observer.observe(el))
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
 
 const { meta: seoMeta } = useSEO({
   title: 'Kontak Kami - Menes Coffee & Eatery Padang',
@@ -85,10 +103,18 @@ const resetForm = () => {
 
 <template>
   <div class="min-h-screen bg-paper-50">
-    <section class="section bg-white border-b border-ink-100">
-      <div class="container-main">
-        <h1 class="font-serif text-4xl md:text-5xl text-ink-900 mb-2">Kontak Kami</h1>
-        <p class="text-ink-500">Punya pertanyaan, saran, atau mau kerja sama? Kirim pesan ke kami</p>
+    <section class="bg-white border-b border-ink-100 overflow-hidden">
+      <div class="container-main py-token-4xl">
+        <div class="max-w-3xl mx-auto text-center">
+          <div class="eyebrow mb-6 animate-slide-up" style="--reveal-delay: 0ms;">Kontak</div>
+          <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.05] text-ink-900 mb-6 animate-slide-up" style="--reveal-delay: 120ms;">
+            Mari
+            <em class="text-brand-600" style="font-family: var(--font-serif); font-style: italic;">terhubung</em>
+          </h1>
+          <p class="text-lg text-ink-500 max-w-xl mx-auto animate-slide-up" style="--reveal-delay: 240ms;">
+            Punya pertanyaan, saran, atau mau kerja sama? Kirim pesan ke kami.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -97,7 +123,7 @@ const resetForm = () => {
         <div class="grid lg:grid-cols-3 gap-8">
           <!-- Contact Form -->
           <div class="lg:col-span-2">
-            <div class="card p-8">
+            <div class="card p-8 will-animate">
               <h2 class="font-serif text-2xl text-ink-900 mb-6">Kirim Pesan</h2>
               
               <form @submit.prevent="handleSubmit" class="space-y-5" novalidate v-if="!submitted">
@@ -163,7 +189,7 @@ const resetForm = () => {
 
           <!-- Contact Info -->
           <div>
-            <div class="card p-8 h-full sticky top-24">
+            <div class="card p-8 h-full sticky top-24 will-animate">
               <h2 class="font-serif text-2xl text-ink-900 mb-6">Informasi Kontak</h2>
               
               <div class="space-y-6 mb-8">
