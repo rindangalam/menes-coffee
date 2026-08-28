@@ -109,4 +109,24 @@ defineProps({
   <svg v-else-if="name === 'ArrowUpRightIcon'" :class="class" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7m0 0H8m9 0v9" />
   </svg>
+
+  <!-- PlayIcon -->
+  <svg v-else-if="name === 'PlayIcon'" :class="class" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M8 5.14v13.72a1 1 0 001.5.86l11-6.86a1 1 0 000-1.72l-11-6.86a1 1 0 00-1.5.86z" />
+  </svg>
+
+  <!-- FilmIcon -->
+  <svg v-else-if="name === 'FilmIcon'" :class="class" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1z" />
+  </svg>
+
+  <!-- ChevronLeftIcon -->
+  <svg v-else-if="name === 'ChevronLeftIcon'" :class="class" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+  </svg>
+
+  <!-- ChevronRightIcon -->
+  <svg v-else-if="name === 'ChevronRightIcon'" :class="class" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+  </svg>
 </template>
