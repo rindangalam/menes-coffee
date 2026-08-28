@@ -53,9 +53,14 @@ CREATE TABLE IF NOT EXISTS reservations (
 -- ============================================
 CREATE TABLE IF NOT EXISTS gallery (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  image_url text NOT NULL,
+  image_url text,
+  media_type text DEFAULT 'photo' CHECK (media_type IN ('photo', 'video', 'embed')),
+  video_url text,
+  embed_url text,
   caption text,
   category text,
+  source text,
+  source_url text,
   sort_order int DEFAULT 0,
   created_at timestamptz DEFAULT now()
 );
