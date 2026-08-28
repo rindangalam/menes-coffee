@@ -155,7 +155,7 @@ const resetForm = () => {
             <h2 class="font-serif text-2xl text-ink-900 mb-6 text-center">Form Reservasi</h2>
             
             <form @submit.prevent="handleSubmit" class="space-y-5" novalidate v-if="!submitted">
-              <div v-if="submitError" class="p-3 bg-terracotta-50 border border-terracotta-200 rounded-token-md text-terracotta-700 text-sm" role="alert">
+              <div v-if="submitError" class="p-3 bg-brand-50 border border-brand-200 rounded-token-md text-brand-700 text-sm" role="alert">
                 {{ submitError }}
               </div>
 
@@ -253,7 +253,7 @@ const resetForm = () => {
 
           <div class="mt-8 p-6 bg-ink-50 rounded-token-lg">
             <h4 class="font-medium text-ink-900 mb-3 flex items-center gap-2">
-              <Icons name="CalendarIcon" class="w-5 h-5 text-terracotta-600" />
+              <Icons name="CalendarIcon" class="w-5 h-5 text-brand-600" />
               Informasi Penting
             </h4>
             <ul class="text-ink-600 text-sm space-y-2">

@@ -82,7 +82,7 @@ onMounted(fetchPosts)
             :class="[
               'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
               activeType === 'promo'
-                ? 'bg-terracotta-600 text-white shadow-token-md'
+                ? 'bg-brand-600 text-white shadow-token-md'
                 : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeType = 'promo'"
@@ -95,7 +95,7 @@ onMounted(fetchPosts)
             :class="[
               'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
               activeType === 'article'
-                ? 'bg-terracotta-600 text-white shadow-token-md'
+                ? 'bg-brand-600 text-white shadow-token-md'
                 : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeType = 'article'"
@@ -108,7 +108,7 @@ onMounted(fetchPosts)
             :class="[
               'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
               activeType === 'all'
-                ? 'bg-terracotta-600 text-white shadow-token-md'
+                ? 'bg-brand-600 text-white shadow-token-md'
                 : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeType = 'all'"

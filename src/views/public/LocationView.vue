@@ -94,8 +94,8 @@ onMounted(async () => {
 
               <div class="space-y-4 mb-8">
                 <div class="flex items-center gap-3 p-4 bg-ink-50 rounded-token-md">
-                  <div class="w-10 h-10 bg-terracotta-100 rounded-token-md flex items-center justify-center flex-shrink-0">
-                    <Icons name="CalendarIcon" class="w-5 h-5 text-terracotta-600" />
+                  <div class="w-10 h-10 bg-brand-100 rounded-token-md flex items-center justify-center flex-shrink-0">
+                    <Icons name="CalendarIcon" class="w-5 h-5 text-brand-600" />
                   </div>
                   <div>
                     <p class="font-medium text-ink-900">Alamat</p>
@@ -112,7 +112,7 @@ onMounted(async () => {
                   <div>
                     <p class="font-medium text-ink-900">Jam Buka</p>
                     <p class="text-ink-600 text-sm">Setiap hari: 08.00 – 04.00</p>
-                    <p class="text-terracotta-600 text-xs mt-1">Late night hangout spot</p>
+                    <p class="text-brand-600 text-xs mt-1">Late night hangout spot</p>
                   </div>
                 </div>
 
@@ -164,7 +164,7 @@ onMounted(async () => {
               class="card p-4 text-center"
             >
               <p class="font-medium text-ink-900 capitalize mb-1">{{ day.label }}</p>
-              <p class="text-terracotta-600 font-semibold" v-if="!getDayInfo(day.key).closed">
+              <p class="text-brand-600 font-semibold" v-if="!getDayInfo(day.key).closed">
                 {{ formatTime(getDayInfo(day.key).open) }} – {{ formatTime(getDayInfo(day.key).close) }}
               </p>
               <p class="text-ink-400 text-sm" v-else>Tutup</p>

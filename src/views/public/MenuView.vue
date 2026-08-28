@@ -101,7 +101,7 @@ onMounted(async () => {
             :class="[
               'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
               activeCategory === cat.id
-                ? 'bg-terracotta-600 text-white shadow-token-md'
+                ? 'bg-brand-600 text-white shadow-token-md'
                 : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeCategory = cat.id"
@@ -114,7 +114,7 @@ onMounted(async () => {
             :class="[
               'px-4 py-2 rounded-token-full text-sm font-medium transition-all duration-token-fast',
               activeCategory === null
-                ? 'bg-terracotta-600 text-white shadow-token-md'
+                ? 'bg-brand-600 text-white shadow-token-md'
                 : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
             ]"
             @click="activeCategory = null"

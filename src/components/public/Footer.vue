@@ -29,6 +29,12 @@ const footerLinks = {
   ]
 }
 
+const socials = [
+  { href: 'instagram', icon: 'PhotoIcon', label: 'Instagram' },
+  { href: 'tiktok', icon: 'tiktok', label: 'TikTok' },
+  { href: 'google_maps', icon: 'CalendarIcon', label: 'Google Maps' },
+]
+
 onMounted(async () => {
   try {
     const { data } = await supabase
@@ -48,24 +54,37 @@ onMounted(async () => {
 </script>
 
 <template>
-  <footer class="bg-ink-950 text-white pt-token-4xl pb-token-xl">
-    <div class="container-main">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-token-2xl mb-token-3xl">
-        <!-- Brand Column -->
-        <div class="lg:col-span-1">
-          <div class="flex items-center gap-2 mb-4">
-            <img src="/logo/logo.png" alt="Menes Coffee & Eatery Logo" class="h-10 w-auto" />
-            <span class="font-serif text-3xl md:text-4xl font-normal text-white">{{ settings.business_name }}</span>
+  <footer class="bg-ink-950 text-white relative overflow-hidden">
+    <!-- Glow accents -->
+    <div class="absolute top-0 left-1/4 w-72 h-72 bg-brand-600/10 rounded-token-full blur-[100px] pointer-events-none"></div>
+
+    <div class="container-main pt-token-5xl pb-token-xl relative z-10">
+      <!-- Top: brand + CTA -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-16 pb-12 border-b border-white/10">
+        <div class="flex items-center gap-4">
+          <div class="p-1 rounded-token-full bg-white/10 border border-white/10">
+            <img src="/logo/logo.png" alt="Menes Coffee & Eatery Logo" class="h-14 w-auto" />
           </div>
-          <p class="text-ink-400 leading-relaxed mb-6 max-w-xs">
-            Tempat ngopi, makan, dan nongkrong sampai larut. Area indoor & outdoor luas, photobox, pet-friendly di jantung Padang.
-          </p>
+          <div>
+            <p class="font-serif text-3xl md:text-4xl text-white">{{ settings.business_name }}</p>
+            <p class="text-ink-400 text-sm mt-1">Ngopi, makan & nongkrong sampai larut di Padang.</p>
+          </div>
+        </div>
+        <router-link to="/reservasi" class="btn-primary px-6 py-3 self-start">
+          Reservasi Sekarang
+          <Icons name="ArrowUpRightIcon" class="w-4 h-4" />
+        </router-link>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-token-2xl mb-token-4xl">
+        <!-- Brand / Social Column -->
+        <div class="lg:col-span-1">
           <div class="flex gap-3">
             <a
               :href="settings.instagram"
               target="_blank"
               rel="noopener noreferrer"
-              class="w-10 h-10 bg-ink-800 rounded-token-full flex items-center justify-center hover:bg-terracotta-600 transition-colors"
+              class="w-11 h-11 bg-white/5 border border-white/10 rounded-token-full flex items-center justify-center hover:bg-brand-600 hover:border-brand-600 hover:-translate-y-0.5 transition-all duration-300"
               aria-label="Instagram"
             >
               <Icons name="PhotoIcon" class="w-5 h-5" />
@@ -74,7 +93,7 @@ onMounted(async () => {
               :href="settings.tiktok"
               target="_blank"
               rel="noopener noreferrer"
-              class="w-10 h-10 bg-ink-800 rounded-token-full flex items-center justify-center hover:bg-terracotta-600 transition-colors"
+              class="w-11 h-11 bg-white/5 border border-white/10 rounded-token-full flex items-center justify-center hover:bg-brand-600 hover:border-brand-600 hover:-translate-y-0.5 transition-all duration-300"
               aria-label="TikTok"
             >
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -85,7 +104,7 @@ onMounted(async () => {
               :href="settings.google_maps"
               target="_blank"
               rel="noopener noreferrer"
-              class="w-10 h-10 bg-ink-800 rounded-token-full flex items-center justify-center hover:bg-terracotta-600 transition-colors"
+              class="w-11 h-11 bg-white/5 border border-white/10 rounded-token-full flex items-center justify-center hover:bg-brand-600 hover:border-brand-600 hover:-translate-y-0.5 transition-all duration-300"
               aria-label="Google Maps"
             >
               <Icons name="CalendarIcon" class="w-5 h-5" />
@@ -95,9 +114,9 @@ onMounted(async () => {
 
         <!-- Navigasi Column -->
         <div>
-          <h3 class="font-medium text-lg mb-4">Navigasi</h3>
+          <h3 class="font-medium text-lg mb-5 relative pb-3 after:absolute after:bottom-0 after:left-0 after:w-8 after:h-0.5 after:bg-brand-500 after:rounded-token-full">Navigasi</h3>
           <nav aria-label="Navigasi footer">
-            <ul class="space-y-2">
+            <ul class="space-y-3">
               <li v-for="link in footerLinks.navigasi" :key="link.path">
                 <router-link
                   :to="link.path"
@@ -112,9 +131,9 @@ onMounted(async () => {
 
         <!-- Promo Column -->
         <div>
-          <h3 class="font-medium text-lg mb-4">Promo & Event</h3>
+          <h3 class="font-medium text-lg mb-5 relative pb-3 after:absolute after:bottom-0 after:left-0 after:w-8 after:h-0.5 after:bg-brand-500 after:rounded-token-full">Promo & Event</h3>
           <nav aria-label="Promo footer">
-            <ul class="space-y-2">
+            <ul class="space-y-3">
               <li v-for="link in footerLinks.promo" :key="link.path">
                 <router-link
                   :to="link.path"
@@ -129,20 +148,20 @@ onMounted(async () => {
 
         <!-- Info Column -->
         <div>
-          <h3 class="font-medium text-lg mb-4">Informasi</h3>
-          <address class="text-ink-400 not-italic text-sm leading-relaxed space-y-3">
-            <div class="flex items-start gap-2">
-              <Icons name="CalendarIcon" class="w-5 h-5 flex-shrink-0 mt-0.5" />
+          <h3 class="font-medium text-lg mb-5 relative pb-3 after:absolute after:bottom-0 after:left-0 after:w-8 after:h-0.5 after:bg-brand-500 after:rounded-token-full">Informasi</h3>
+          <address class="text-ink-400 not-italic text-sm leading-relaxed space-y-4">
+            <div class="flex items-start gap-3">
+              <Icons name="CalendarIcon" class="w-5 h-5 flex-shrink-0 mt-0.5 text-brand-400" />
               <span>{{ settings.address }}</span>
             </div>
-            <div v-if="settings.phone" class="flex items-start gap-2">
-              <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div v-if="settings.phone" class="flex items-start gap-3">
+              <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
               <a :href="`tel:${settings.phone}`" class="hover:text-white transition-colors">{{ settings.phone }}</a>
             </div>
-            <div v-if="settings.email" class="flex items-start gap-2">
-              <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div v-if="settings.email" class="flex items-start gap-3">
+              <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               <a :href="`mailto:${settings.email}`" class="hover:text-white transition-colors">{{ settings.email }}</a>
@@ -152,7 +171,7 @@ onMounted(async () => {
       </div>
 
       <!-- Divider -->
-      <div class="border-t border-ink-800 mb-token-xl" />
+      <div class="border-t border-white/10 mb-token-xl" />
 
       <!-- Bottom Bar -->
       <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-ink-500 text-sm">
@@ -162,7 +181,7 @@ onMounted(async () => {
             :href="settings.instagram"
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-white transition-colors"
+            class="hover:text-brand-400 transition-colors"
           >
             Instagram
           </a>
@@ -170,16 +189,16 @@ onMounted(async () => {
             :href="settings.tiktok"
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-white transition-colors"
+            class="hover:text-brand-400 transition-colors"
           >
             TikTok
           </a>
-          <a
-            href="/kontak"
-            class="hover:text-white transition-colors"
+          <router-link
+            to="/kontak"
+            class="hover:text-brand-400 transition-colors"
           >
             Hubungi Kami
-          </a>
+          </router-link>
         </div>
       </div>
     </div>

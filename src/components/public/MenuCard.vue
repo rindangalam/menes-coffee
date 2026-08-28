@@ -1,4 +1,6 @@
 <script setup>
+import Icons from '@/components/ui/Icons.vue'
+
 defineProps({
   item: {
     type: Object,
@@ -22,15 +24,14 @@ const formatPrice = (price) => {
 <template>
   <article
     :class="[
-      'card group',
-      variant === 'featured' ? '' : '',
+      'card group rounded-token-2xl',
       variant === 'compact' ? 'flex flex-row' : '',
     ]"
   >
     <div
       :class="[
         'relative overflow-hidden',
-        variant === 'compact' ? 'w-24 h-24 flex-shrink-0 rounded-token-md' : 'aspect-[4/3] rounded-token-lg',
+        variant === 'compact' ? 'w-24 h-24 flex-shrink-0 rounded-token-lg m-3' : 'aspect-[4/3] rounded-token-2xl',
       ]"
     >
       <img
@@ -38,8 +39,8 @@ const formatPrice = (price) => {
         :src="item.image_url"
         :alt="item.name"
         :class="[
-          'w-full h-full object-cover transition-transform duration-400',
-          variant === 'compact' ? '' : 'group-hover:scale-103',
+          'w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]',
+          variant === 'compact' ? '' : 'group-hover:scale-105',
         ]"
         loading="lazy"
       />
@@ -50,7 +51,7 @@ const formatPrice = (price) => {
 
       <!-- Sold Out Overlay -->
       <div v-if="!item.is_available" class="absolute inset-0 bg-black/50 flex items-center justify-center">
-        <span class="badge bg-terracotta-100 text-terracotta-800 text-base px-4 py-2">
+        <span class="badge bg-brand-100 text-brand-800 text-base px-4 py-2">
           Habis
         </span>
       </div>
@@ -64,7 +65,7 @@ const formatPrice = (price) => {
 
       <!-- Popular Badge -->
       <div v-if="item.is_popular" class="absolute top-3 right-3">
-        <span class="badge bg-terracotta-100 text-terracotta-800 px-2.5 py-1 text-xs">
+        <span class="badge bg-brand-100 text-brand-800 px-2.5 py-1 text-xs">
           Popular
         </span>
       </div>
@@ -72,15 +73,14 @@ const formatPrice = (price) => {
 
     <div
       :class="[
-        'p-4',
-        variant === 'compact' ? 'flex-1 flex flex-col justify-center' : '',
+        variant === 'compact' ? 'p-4 flex-1 flex flex-col justify-center' : 'p-5',
       ]"
     >
       <div class="flex items-start justify-between gap-2 mb-2">
-        <h3 class="font-semibold text-ink-900 {{ variant === 'compact' ? 'text-base' : 'text-lg' }} flex-1">
+        <h3 :class="['font-semibold text-ink-900 flex-1', variant === 'compact' ? 'text-base' : 'text-lg']">
           {{ item.name }}
         </h3>
-        <span class="font-bold text-terracotta-600 {{ variant === 'compact' ? 'text-base' : 'text-lg' }} whitespace-nowrap">
+        <span :class="['font-bold text-brand-600 whitespace-nowrap', variant === 'compact' ? 'text-base' : 'text-lg']">
           Rp {{ formatPrice(item.price) }}
         </span>
       </div>

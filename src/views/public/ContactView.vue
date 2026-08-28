@@ -101,7 +101,7 @@ const resetForm = () => {
               <h2 class="font-serif text-2xl text-ink-900 mb-6">Kirim Pesan</h2>
               
               <form @submit.prevent="handleSubmit" class="space-y-5" novalidate v-if="!submitted">
-                <div v-if="submitError" class="p-3 bg-terracotta-50 border border-terracotta-200 rounded-token-md text-terracotta-700 text-sm" role="alert">
+                <div v-if="submitError" class="p-3 bg-brand-50 border border-brand-200 rounded-token-md text-brand-700 text-sm" role="alert">
                   {{ submitError }}
                 </div>
 
@@ -126,7 +126,7 @@ const resetForm = () => {
                 </div>
 
                 <div>
-                  <label for="message" class="label">Pesan <span class="text-terracotta-500">*</span></label>
+                  <label for="message" class="label">Pesan <span class="text-brand-500">*</span></label>
                   <textarea
                     id="message"
                     v-model="form.message"
@@ -168,8 +168,8 @@ const resetForm = () => {
               
               <div class="space-y-6 mb-8">
                 <div class="flex items-start gap-4">
-                  <div class="w-10 h-10 bg-terracotta-100 rounded-token-md flex items-center justify-center flex-shrink-0">
-                    <Icons name="CalendarIcon" class="w-5 h-5 text-terracotta-600" />
+                  <div class="w-10 h-10 bg-brand-100 rounded-token-md flex items-center justify-center flex-shrink-0">
+                    <Icons name="CalendarIcon" class="w-5 h-5 text-brand-600" />
                   </div>
                   <div>
                     <p class="font-medium text-ink-900">Alamat</p>
@@ -189,7 +189,7 @@ const resetForm = () => {
                   <div>
                     <p class="font-medium text-ink-900">Jam Buka</p>
                     <p class="text-ink-600 text-sm mt-1">Setiap hari: 08.00 – 04.00</p>
-                    <p class="text-terracotta-600 text-xs mt-1">Late night hangout</p>
+                    <p class="text-brand-600 text-xs mt-1">Late night hangout</p>
                   </div>
                 </div>
 
@@ -199,7 +199,7 @@ const resetForm = () => {
                   </div>
                   <div>
                     <p class="font-medium text-ink-900">Instagram</p>
-                    <a href="https://instagram.com/menescoffee" target="_blank" rel="noopener noreferrer" class="text-terracotta-600 hover:underline text-sm mt-1 inline-block">@menescoffee</a>
+                    <a href="https://instagram.com/menescoffee" target="_blank" rel="noopener noreferrer" class="text-brand-600 hover:underline text-sm mt-1 inline-block">@menescoffee</a>
                   </div>
                 </div>
 
@@ -211,7 +211,7 @@ const resetForm = () => {
                   </div>
                   <div>
                     <p class="font-medium text-ink-900">TikTok</p>
-                    <a href="https://tiktok.com/@menescoffee" target="_blank" rel="noopener noreferrer" class="text-terracotta-600 hover:underline text-sm mt-1 inline-block">@menescoffee</a>
+                    <a href="https://tiktok.com/@menescoffee" target="_blank" rel="noopener noreferrer" class="text-brand-600 hover:underline text-sm mt-1 inline-block">@menescoffee</a>
                   </div>
                 </div>
               </div>
