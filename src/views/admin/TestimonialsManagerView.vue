@@ -121,7 +121,7 @@ onMounted(fetchTestimonials)
                   v-if="test.status === 'pending'"
                   variant="ghost"
                   size="sm"
-                  class="text-terracotta-600 hover:bg-terracotta-50"
+                  class="text-brand-600 hover:bg-brand-50"
                   :loading="updatingStatus === test.id"
                   @click="updateStatus(test.id, 'rejected')"
                 >

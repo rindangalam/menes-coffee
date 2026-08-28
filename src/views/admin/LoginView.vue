@@ -83,7 +83,7 @@ onMounted(async () => {
 
       <div class="card p-8">
         <form @submit.prevent="handleSubmit" class="space-y-5" novalidate>
-          <div v-if="errorMessage" class="p-3 bg-terracotta-50 border border-terracotta-200 rounded-token-md text-terracotta-700 text-sm" role="alert">
+          <div v-if="errorMessage" class="p-3 bg-brand-50 border border-brand-200 rounded-token-md text-brand-700 text-sm" role="alert">
             {{ errorMessage }}
           </div>
 
@@ -119,7 +119,7 @@ onMounted(async () => {
         </form>
 
         <div class="mt-6 text-center text-sm text-ink-500">
-          <p>Kembali ke <a href="/" class="text-terracotta-600 hover:underline">Website Publik</a></p>
+          <p>Kembali ke <a href="/" class="text-brand-600 hover:underline">Website Publik</a></p>
         </div>
       </div>
     </div>

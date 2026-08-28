@@ -239,7 +239,7 @@ onMounted(fetchAdmins)
                 v-if="admin.id !== currentUserId && currentUserRole === 'superadmin'"
                 variant="ghost"
                 size="sm"
-                class="text-terracotta-600 hover:bg-terracotta-50"
+                class="text-brand-600 hover:bg-brand-50"
                 @click="confirmDelete(admin)"
               >
                 <Icons name="TrashIcon" class="w-4 h-4" /> Hapus
@@ -257,7 +257,7 @@ onMounted(fetchAdmins)
     <!-- Add Modal -->
     <Modal v-model:modelValue="showModal" title="Tambah Admin" @close="closeModal" size="lg">
       <form @submit.prevent="saveAdmin" class="space-y-4">
-        <div v-if="errors.form" class="p-3 bg-terracotta-50 border border-terracotta-200 rounded-token-md text-terracotta-700 text-sm" role="alert">
+        <div v-if="errors.form" class="p-3 bg-brand-50 border border-brand-200 rounded-token-md text-brand-700 text-sm" role="alert">
           {{ errors.form }}
         </div>
 
@@ -277,7 +277,7 @@ onMounted(fetchAdmins)
       <p class="mb-6">Admin <strong>"{{ deletingAdmin?.name }}"</strong> akan dihapus. Tindakan ini tidak dapat dibatalkan.</p>
       <div class="flex justify-end gap-3">
         <Button variant="secondary" @click="closeDeleteModal">Batal</Button>
-        <Button variant="primary" class="bg-terracotta-600 hover:bg-terracotta-700" @click="deleteAdmin" :loading="deleting">Hapus</Button>
+        <Button variant="primary" class="bg-brand-600 hover:bg-brand-700" @click="deleteAdmin" :loading="deleting">Hapus</Button>
       </div>
     </Modal>
   </div>

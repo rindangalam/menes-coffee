@@ -108,7 +108,7 @@ onMounted(fetchSettings)
       <!-- Business Info -->
       <section class="card p-6">
         <h2 class="font-serif text-xl text-ink-900 mb-6 flex items-center gap-2">
-          <Icons name="SettingsIcon" class="w-6 h-6 text-terracotta-600" />
+          <Icons name="SettingsIcon" class="w-6 h-6 text-brand-600" />
           Informasi Bisnis
         </h2>
         <div class="grid sm:grid-cols-2 gap-4">
@@ -122,7 +122,7 @@ onMounted(fetchSettings)
       <!-- Opening Hours -->
       <section class="card p-6">
         <h2 class="font-serif text-xl text-ink-900 mb-6 flex items-center gap-2">
-          <Icons name="CalendarIcon" class="w-6 h-6 text-terracotta-600" />
+          <Icons name="CalendarIcon" class="w-6 h-6 text-brand-600" />
           Jam Buka
         </h2>
         <p class="text-ink-500 text-sm mb-4">Atur jam buka setiap hari. Centang "Tutup" untuk hari libur.</p>
@@ -132,7 +132,7 @@ onMounted(fetchSettings)
               <input
                 type="checkbox"
                 v-model="day.closed"
-                class="w-4 h-4 rounded-token-sm border-ink-300 text-terracotta-600 focus:ring-terracotta-500"
+                class="w-4 h-4 rounded-token-sm border-ink-300 text-brand-600 focus:ring-brand-500"
               />
               <span class="font-medium text-ink-900 capitalize">{{ day.label }}</span>
             </label>
@@ -147,7 +147,7 @@ onMounted(fetchSettings)
       <!-- Social Media -->
       <section class="card p-6">
         <h2 class="font-serif text-xl text-ink-900 mb-6 flex items-center gap-2">
-          <Icons name="PhotoIcon" class="w-6 h-6 text-terracotta-600" />
+          <Icons name="PhotoIcon" class="w-6 h-6 text-brand-600" />
           Media Sosial
         </h2>
         <div class="grid sm:grid-cols-2 gap-4">
@@ -167,7 +167,7 @@ onMounted(fetchSettings)
     <div v-if="saved" class="p-4 bg-sage-50 border border-sage-200 rounded-token-lg text-sage-800 animate-fade-in">
       Pengaturan berhasil disimpan!
     </div>
-    <div v-if="errors.form" class="p-4 bg-terracotta-50 border border-terracotta-200 rounded-token-lg text-terracotta-700 animate-fade-in">
+    <div v-if="errors.form" class="p-4 bg-brand-50 border border-brand-200 rounded-token-lg text-brand-700 animate-fade-in">
       {{ errors.form }}
     </div>
   </div>

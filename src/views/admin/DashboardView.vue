@@ -94,8 +94,8 @@ onMounted(fetchDashboardData)
             <p v-if="loading" class="font-serif text-3xl font-bold text-ink-900"><Skeleton variant="text" :lines="1" className="w-20" /></p>
             <p v-else class="font-serif text-3xl font-bold text-ink-900">{{ stats.todayReservations }}</p>
           </div>
-          <div class="w-12 h-12 bg-terracotta-100 rounded-token-lg flex items-center justify-center">
-            <Icons name="CalendarIcon" class="w-6 h-6 text-terracotta-600" />
+          <div class="w-12 h-12 bg-brand-100 rounded-token-lg flex items-center justify-center">
+            <Icons name="CalendarIcon" class="w-6 h-6 text-brand-600" />
           </div>
         </div>
       </div>
@@ -176,8 +176,8 @@ onMounted(fetchDashboardData)
           <template v-else>
             <div v-for="res in recentReservations" :key="res.id" class="p-4 hover:bg-ink-50 flex items-center justify-between">
               <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-terracotta-100 rounded-token-full flex items-center justify-center">
-                  <Icons name="CalendarIcon" class="w-5 h-5 text-terracotta-600" />
+                <div class="w-10 h-10 bg-brand-100 rounded-token-full flex items-center justify-center">
+                  <Icons name="CalendarIcon" class="w-5 h-5 text-brand-600" />
                 </div>
                 <div>
                   <p class="font-medium text-ink-900">{{ res.name }}</p>

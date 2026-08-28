@@ -116,7 +116,7 @@ onMounted(fetchMessages)
             @click="viewMessage(msg)"
           >
             <td class="p-4">
-              <div v-if="!msg.is_read" class="w-2 h-2 bg-terracotta-600 rounded-full flex-shrink-0" aria-label="Belum dibaca" />
+              <div v-if="!msg.is_read" class="w-2 h-2 bg-brand-600 rounded-full flex-shrink-0" aria-label="Belum dibaca" />
             </td>
             <td class="p-4 font-medium text-ink-900">{{ msg.name }}</td>
             <td class="p-4 hidden md:table-cell text-ink-600">{{ msg.email }}</td>

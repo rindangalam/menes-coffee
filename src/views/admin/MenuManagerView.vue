@@ -257,7 +257,7 @@ const deleteItem = async () => {
             :class="[
               'px-4 py-3 text-sm font-medium border-b-2 transition-colors',
               activeCategory === cat.id
-                ? 'border-terracotta-600 text-terracotta-600'
+                ? 'border-brand-600 text-brand-600'
                 : 'border-transparent text-ink-500 hover:text-ink-700'
             ]"
             @click="activeCategory = cat.id"
@@ -270,7 +270,7 @@ const deleteItem = async () => {
             :class="[
               'px-4 py-3 text-sm font-medium border-b-2 transition-colors',
               activeCategory === null
-                ? 'border-terracotta-600 text-terracotta-600'
+                ? 'border-brand-600 text-brand-600'
                 : 'border-transparent text-ink-500 hover:text-ink-700'
             ]"
             @click="activeCategory = null"
@@ -317,7 +317,7 @@ const deleteItem = async () => {
                 <span class="text-ink-600">{{ item.categories?.name || '-' }}</span>
               </td>
               <td class="p-4 hidden lg:table-cell">
-                <span class="font-medium text-terracotta-600">Rp {{ formatPrice(item.price) }}</span>
+                <span class="font-medium text-brand-600">Rp {{ formatPrice(item.price) }}</span>
               </td>
               <td class="p-4">
                 <div class="flex items-center gap-2">
@@ -332,7 +332,7 @@ const deleteItem = async () => {
                   <Button variant="ghost" size="sm" @click="editItem(item)" aria-label="Edit {{ item.name }}">
                     <Icons name="EditIcon" class="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" class="text-terracotta-600 hover:bg-terracotta-50" @click="confirmDelete(item)" aria-label="Hapus {{ item.name }}">
+                  <Button variant="ghost" size="sm" class="text-brand-600 hover:bg-brand-50" @click="confirmDelete(item)" aria-label="Hapus {{ item.name }}">
                     <Icons name="TrashIcon" class="w-4 h-4" />
                   </Button>
                 </div>
@@ -353,7 +353,7 @@ const deleteItem = async () => {
     <!-- Add/Edit Modal -->
     <Modal v-model:modelValue="showModal" :title="editingItem ? 'Edit Menu' : 'Tambah Menu'" @close="closeModal" size="lg">
       <form @submit.prevent="saveItem" class="space-y-4">
-        <div v-if="errors.form" class="p-3 bg-terracotta-50 border border-terracotta-200 rounded-token-md text-terracotta-700 text-sm" role="alert">
+        <div v-if="errors.form" class="p-3 bg-brand-50 border border-brand-200 rounded-token-md text-brand-700 text-sm" role="alert">
           {{ errors.form }}
         </div>
 
@@ -375,11 +375,11 @@ const deleteItem = async () => {
           <Select v-model="form.sort_order" label="Urutan" :options="sortOptions" optionValue="value" optionLabel="label" />
           <div class="flex items-center gap-4 pt-6">
             <label class="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" v-model="form.is_available" class="w-4 h-4 rounded-token-sm border-ink-300 text-terracotta-600 focus:ring-terracotta-500" />
+              <input type="checkbox" v-model="form.is_available" class="w-4 h-4 rounded-token-sm border-ink-300 text-brand-600 focus:ring-brand-500" />
               <span class="text-sm text-ink-700">Tersedia</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" v-model="form.is_featured" class="w-4 h-4 rounded-token-sm border-ink-300 text-terracotta-600 focus:ring-terracotta-500" />
+              <input type="checkbox" v-model="form.is_featured" class="w-4 h-4 rounded-token-sm border-ink-300 text-brand-600 focus:ring-brand-500" />
               <span class="text-sm text-ink-700">Featured</span>
             </label>
           </div>
@@ -397,7 +397,7 @@ const deleteItem = async () => {
       <p class="mb-6">Menu <strong>"{{ deletingItem?.name }}"</strong> akan dihapus. Tindakan ini tidak dapat dibatalkan.</p>
       <div class="flex justify-end gap-3">
         <Button variant="secondary" @click="closeDeleteModal">Batal</Button>
-        <Button variant="primary" class="bg-terracotta-600 hover:bg-terracotta-700" @click="deleteItem" :loading="deleting">Hapus</Button>
+        <Button variant="primary" class="bg-brand-600 hover:bg-brand-700" @click="deleteItem" :loading="deleting">Hapus</Button>
       </div>
     </Modal>
   </div>

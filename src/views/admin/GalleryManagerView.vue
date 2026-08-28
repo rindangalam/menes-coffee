@@ -222,7 +222,7 @@ const updateSortOrder = async (item, newOrder) => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    class="bg-white/90 hover:bg-white text-terracotta-600"
+                    class="bg-white/90 hover:bg-white text-brand-600"
                     @click.stop="confirmDelete(item)"
                     aria-label="Hapus {{ item.caption || 'foto' }}"
                   >
@@ -259,7 +259,7 @@ const updateSortOrder = async (item, newOrder) => {
     <!-- Add/Edit Modal -->
     <Modal v-model:modelValue="showModal" :title="editingItem ? 'Edit Foto Galeri' : 'Tambah Foto Galeri'" @close="closeModal" size="lg">
       <form @submit.prevent="saveItem" class="space-y-4">
-        <div v-if="errors.form" class="p-3 bg-terracotta-50 border border-terracotta-200 rounded-token-md text-terracotta-700 text-sm" role="alert">
+        <div v-if="errors.form" class="p-3 bg-brand-50 border border-brand-200 rounded-token-md text-brand-700 text-sm" role="alert">
           {{ errors.form }}
         </div>
 
@@ -284,7 +284,7 @@ const updateSortOrder = async (item, newOrder) => {
       <p class="mb-6">Foto ini akan dihapus. Tindakan ini tidak dapat dibatalkan.</p>
       <div class="flex justify-end gap-3">
         <Button variant="secondary" @click="closeDeleteModal">Batal</Button>
-        <Button variant="primary" class="bg-terracotta-600 hover:bg-terracotta-700" @click="deleteItem" :loading="deleting">Hapus</Button>
+        <Button variant="primary" class="bg-brand-600 hover:bg-brand-700" @click="deleteItem" :loading="deleting">Hapus</Button>
       </div>
     </Modal>
   </div>

@@ -153,7 +153,7 @@ onMounted(fetchReservations)
                   v-if="res.status !== 'cancelled'"
                   variant="ghost"
                   size="sm"
-                  class="text-terracotta-600 hover:bg-terracotta-50"
+                  class="text-brand-600 hover:bg-brand-50"
                   :loading="updatingStatus === res.id"
                   @click="updateStatus(res.id, 'cancelled')"
                 >
