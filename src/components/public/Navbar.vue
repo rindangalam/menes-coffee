@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import Button from '@/components/ui/Button.vue'
 import Icons from '@/components/ui/Icons.vue'
@@ -8,8 +8,13 @@ const router = useRouter()
 const route = useRoute()
 
 const isScrolled = ref(false)
+const isHome = ref(route.name === 'Home')
 const mobileMenuOpen = ref(false)
 const scrolledThreshold = 100
+
+const heroTransparent = computed(() => {
+  return isHome.value && !isScrolled.value
+})
 
 const navLinks = [
   { path: '/menu', label: 'Menu' },
@@ -41,6 +46,7 @@ onUnmounted(() => {
 
 watch(() => route.path, () => {
   mobileMenuOpen.value = false
+  isHome.value = route.name === 'Home'
 })
 
 const closeMobileMenu = () => {
@@ -73,7 +79,9 @@ const scrollToSection = (id) => {
           'transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] rounded-token-full',
           isScrolled
             ? 'bg-white/90 backdrop-blur-xl shadow-glass border border-warm-100/80'
-            : 'bg-transparent border border-transparent'
+            : (heroTransparent
+                ? 'bg-transparent border border-transparent text-white'
+                : 'bg-transparent border border-transparent')
         ]"
       >
         <!-- Desktop Nav -->
@@ -84,8 +92,8 @@ const scrollToSection = (id) => {
               <img src="/logo/logo.png" alt="Menes Coffee & Eatery Logo" class="h-9 w-auto" />
             </div>
             <div class="flex flex-col leading-none">
-              <span class="font-serif text-xl text-ink-900">Menes</span>
-              <span class="text-[10px] uppercase tracking-[0.2em] text-ink-500 mt-0.5">Coffee & Eatery</span>
+              <span :class="['font-serif text-xl transition-colors duration-300', heroTransparent ? 'text-white' : 'text-ink-900']">Menes</span>
+              <span :class="['text-[10px] uppercase tracking-[0.2em] mt-0.5 transition-colors duration-300', heroTransparent ? 'text-white/70' : 'text-ink-500']">Coffee & Eatery</span>
             </div>
           </router-link>
 
@@ -95,8 +103,12 @@ const scrollToSection = (id) => {
               v-for="link in navLinks"
               :key="link.path"
               :to="link.path"
-              class="relative px-4 py-2 text-sm font-medium text-ink-700 hover:text-brand-600 transition-colors duration-300 rounded-token-full"
-              :class="{ 'text-brand-600 bg-brand-50': route.path === link.path }"
+              class="relative px-4 py-2 text-sm font-medium transition-colors duration-300 rounded-token-full"
+              :class="[
+                route.path === link.path
+                  ? (heroTransparent ? 'text-white bg-white/15' : 'text-brand-600 bg-brand-50')
+                  : (heroTransparent ? 'text-white/80 hover:text-white' : 'text-ink-700 hover:text-brand-600')
+              ]"
             >
               {{ link.label }}
             </router-link>
@@ -114,7 +126,10 @@ const scrollToSection = (id) => {
               href="https://instagram.com/menescoffee"
               target="_blank"
               rel="noopener noreferrer"
-              class="w-10 h-10 rounded-token-full border border-warm-200 bg-white/60 hover:bg-white hover:border-brand-300 flex items-center justify-center text-ink-700 hover:text-brand-600 transition-all duration-300"
+              class="w-10 h-10 rounded-token-full border flex items-center justify-center transition-all duration-300"
+              :class="heroTransparent
+                ? 'border-white/25 bg-white/10 hover:bg-white/20 text-white hover:text-white'
+                : 'border-warm-200 bg-white/60 hover:bg-white hover:border-brand-300 text-ink-700 hover:text-brand-600'"
               aria-label="Instagram Menes Coffee"
             >
               <Icons name="PhotoIcon" class="w-5 h-5" />
@@ -128,21 +143,23 @@ const scrollToSection = (id) => {
             <div class="p-0.5 rounded-token-full bg-white shadow-token-sm">
               <img src="/logo/logo.png" alt="Menes Coffee & Eatery Logo" class="h-7 w-auto" />
             </div>
-            <span class="font-serif text-lg text-ink-900">Menes</span>
+            <span :class="['font-serif text-lg transition-colors duration-300', heroTransparent ? 'text-white' : 'text-ink-900']">Menes</span>
           </router-link>
 
           <button
             type="button"
             @click="mobileMenuOpen = !mobileMenuOpen"
-            class="w-10 h-10 rounded-token-full flex flex-col items-center justify-center gap-[5px] focus:outline-none"
-            :class="mobileMenuOpen ? 'bg-white/10' : 'bg-white/70 border border-warm-200'"
+            class="w-10 h-10 rounded-token-full flex flex-col items-center justify-center gap-[5px] focus:outline-none transition-colors duration-300"
+            :class="mobileMenuOpen
+              ? 'bg-white/10'
+              : (heroTransparent ? 'bg-white/10 border border-white/25 text-white' : 'bg-white/70 border border-warm-200')"
             :aria-label="mobileMenuOpen ? 'Tutup menu' : 'Buka menu'"
             :aria-expanded="mobileMenuOpen"
             aria-controls="mobile-menu"
           >
-            <span class="block w-[18px] h-[2px] bg-current rounded-full transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]" :class="mobileMenuOpen ? 'translate-y-[7px] rotate-45' : 'text-ink-900'" />
-            <span class="block w-[18px] h-[2px] bg-current rounded-full transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]" :class="mobileMenuOpen ? 'opacity-0' : 'text-ink-900'" />
-            <span class="block w-[18px] h-[2px] bg-current rounded-full transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]" :class="mobileMenuOpen ? '-translate-y-[7px] -rotate-45' : 'text-ink-900'" />
+            <span class="block w-[18px] h-[2px] bg-current rounded-full transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]" :class="mobileMenuOpen ? 'translate-y-[7px] rotate-45' : (heroTransparent ? 'text-white' : 'text-ink-900')" />
+            <span class="block w-[18px] h-[2px] bg-current rounded-full transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]" :class="mobileMenuOpen ? 'opacity-0' : (heroTransparent ? 'text-white' : 'text-ink-900')" />
+            <span class="block w-[18px] h-[2px] bg-current rounded-full transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]" :class="mobileMenuOpen ? '-translate-y-[7px] -rotate-45' : (heroTransparent ? 'text-white' : 'text-ink-900')" />
           </button>
         </div>
       </div>
