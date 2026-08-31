@@ -10,7 +10,7 @@
 
 ---
 
-## 📋 Overview
+## Overview
 
 **Menes Coffee & Eatery Website** is a comprehensive web application for the popular coffee shop and eatery in Padang, West Sumatra. The platform features a public-facing website for customers and an integrated admin panel for staff to manage content, reservations, and daily operations.
 
@@ -31,18 +31,18 @@
 
 ---
 
-## ✨ Features
+## Features
 
-### 🌐 Public Website
+### Public Website
 
-#### 🏠 Homepage
+#### Homepage
 - Hero section with stunning cafe visuals
 - Featured menu highlights
 - Call-to-action buttons (Menu, Reservations)
 - Latest promotions showcase
 - Customer testimonials
 
-#### ☕ Menu Page
+#### Menu Page
 - Complete menu catalog with categories:
   - Breakfast
   - Starters
@@ -56,7 +56,7 @@
 - "Sold Out" badges for unavailable items
 - Category filtering
 
-#### ℹ️ About Us
+#### ℹ About Us
 - Cafe story and background
 - Interior/exterior photo gallery
 - Unique selling points:
@@ -65,13 +65,13 @@
   - Late-night operations
   - Family and pet-friendly
 
-#### 📍 Location & Hours
+#### Location & Hours
 - Google Maps integration (Jl. Kartini No. 24, Padang)
 - Operating hours (daily 08:00 - 04:00)
 - Contact information
 - Directions
 
-#### 📅 Table Reservations
+#### Table Reservations
 - Online booking form:
   - Name, phone number
   - Date and time selection
@@ -80,77 +80,77 @@
 - Real-time availability check
 - Instant booking confirmation
 
-#### 📧 Contact Form
+#### Contact Form
 - Direct message to cafe management
 - Name, email, message fields
 - Inquiry submission tracking
 
-#### 🖼️ Gallery (Phase 2)
+#### Gallery (Phase 2)
 - Photo grid organized by category
 - Lazy loading for performance
 - Showcasing ambiance and dishes
 
-#### ⭐ Testimonials (Phase 2)
+#### Testimonials (Phase 2)
 - Customer reviews and feedback
 - Admin-approved testimonials only
 - Photo testimonials support
 
-#### 🎉 Promotions/Blog (Phase 2)
+#### Promotions/Blog (Phase 2)
 - Daily/weekly promotional offers
 - Special event announcements
 - Menu discount alerts (e.g., lunch specials)
 - Expiry date handling
 
-### 🛠️ Admin Panel
+### Admin Panel
 
-#### 🔐 Authentication
+#### Authentication
 - Secure login (email/password via Supabase Auth)
 - Role-based access control
 - Session management
 
-#### 📊 Dashboard
+#### Dashboard
 - Today's reservations summary
 - Unread messages count
 - Popular menu items analytics
 - Quick action shortcuts
 
-#### 🍽️ Menu Management (CRUD)
+#### Menu Management (CRUD)
 - Add/edit/delete menu items
 - Category management
 - Photo upload to Supabase Storage
 - Price and availability control
 - Real-time updates to public site
 
-#### 📆 Reservation Management
+#### Reservation Management
 - View all reservations
 - Filter by date and status
 - Status updates (pending/confirmed/cancelled)
 - Guest information tracking
 - Notes and special requests
 
-#### 💬 Message Management
+#### Message Management
 - Contact form submissions inbox
 - Read/unread status tracking
 - Message responses (optional)
 
-#### 🖼️ Gallery Management (Phase 2)
+#### Gallery Management (Phase 2)
 - Upload/delete photos
 - Category organization
 - Sort order control
 - Bulk upload support
 
-#### ⭐ Testimonial Management (Phase 2)
+#### Testimonial Management (Phase 2)
 - Review submission approval
 - Moderation queue
 - Publish/unpublish control
 
-#### 🎉 Promotion Management (Phase 2)
+#### Promotion Management (Phase 2)
 - Create promotional posts
 - Set validity periods
 - Publish/unpublish control
 - Rich text editor for content
 
-#### ⚙️ Settings (Phase 2)
+#### Settings (Phase 2)
 - Operating hours configuration
 - Contact information
 - Social media links
@@ -158,7 +158,7 @@
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -172,7 +172,7 @@
 
 ---
 
-## 📋 Requirements
+## Requirements
 
 - **Node.js** >= 18
 - **npm** >= 9
@@ -180,7 +180,7 @@
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### 1. Clone Repository
 
@@ -235,48 +235,48 @@ Open [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 menes-coffee/
-├── src/
-│   ├── components/            # Reusable Vue components
-│   ├── views/                 # Page components
-│   │   ├── public/            # Public website pages
-│   │   │   ├── Home.vue
-│   │   │   ├── Menu.vue
-│   │   │   ├── About.vue
-│   │   │   ├── Location.vue
-│   │   │   ├── Reservation.vue
-│   │   │   └── Contact.vue
-│   │   └── admin/             # Admin panel pages
-│   │       ├── Dashboard.vue
-│   │       ├── MenuManagement.vue
-│   │       ├── Reservations.vue
-│   │       └── Messages.vue
-│   ├── stores/                # Pinia stores
-│   ├── router/                # Vue Router configuration
-│   ├── composables/           # Reusable composition functions
-│   ├── utils/                 # Helper functions
-│   └── main.js                # App entry point
-├── supabase/
-│   └── supabase-schema.sql    # Database schema
-├── scripts/
-│   ├── create-admin.mjs       # Create admin user
-│   ├── download-assets.mjs    # Download images from Instagram
-│   └── apply-settings.js      # Apply initial settings
-├── public/                    # Static assets
-├── index.html
-├── vite.config.js
-├── tailwind.config.js
-├── PRD-Website-Cafe.md        # Product Requirements Document
-├── SPRINT.md                  # Sprint planning
-└── package.json
+ src/
+    components/            # Reusable Vue components
+    views/                 # Page components
+       public/            # Public website pages
+          Home.vue
+          Menu.vue
+          About.vue
+          Location.vue
+          Reservation.vue
+          Contact.vue
+       admin/             # Admin panel pages
+           Dashboard.vue
+           MenuManagement.vue
+           Reservations.vue
+           Messages.vue
+    stores/                # Pinia stores
+    router/                # Vue Router configuration
+    composables/           # Reusable composition functions
+    utils/                 # Helper functions
+    main.js                # App entry point
+ supabase/
+    supabase-schema.sql    # Database schema
+ scripts/
+    create-admin.mjs       # Create admin user
+    download-assets.mjs    # Download images from Instagram
+    apply-settings.js      # Apply initial settings
+ public/                    # Static assets
+ index.html
+ vite.config.js
+ tailwind.config.js
+ PRD-Website-Cafe.md        # Product Requirements Document
+ SPRINT.md                  # Sprint planning
+ package.json
 ```
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Core Tables
 - `menu_items` - Menu catalog with categories
@@ -290,7 +290,7 @@ menes-coffee/
 
 ---
 
-## 🔐 Authentication & Authorization
+## Authentication & Authorization
 
 ### User Roles
 - **Superadmin** - Full system access, user management
@@ -304,7 +304,7 @@ menes-coffee/
 
 ---
 
-## 🎨 Design Principles
+## Design Principles
 
 ### Public Website
 - **Mobile-first**: Optimized for smartphone users
@@ -330,7 +330,7 @@ npm run preview    # Preview production build
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 ### Vercel (Recommended)
 
@@ -354,7 +354,7 @@ vercel
 
 ---
 
-## 📊 Success Metrics
+## Success Metrics
 
 | Metric | Target |
 |--------|--------|
@@ -365,20 +365,20 @@ vercel
 
 ---
 
-## 🎯 Development Phases
+## Development Phases
 
-### ✅ Phase 1 (MVP - Complete)
+### Phase 1 (MVP - Complete)
 - Public pages: Home, Menu, About, Location, Reservations, Contact
 - Admin panel: Login, Menu CRUD, Reservation management, Message inbox
 - Table reservation system (no payment)
 
-### 🚧 Phase 2 (In Progress)
+### Phase 2 (In Progress)
 - Gallery photo management
 - Customer testimonials with approval workflow
 - Promotions/blog posts
 - Dynamic settings (hours, contact, social media)
 
-### 📋 Phase 3 (Planned)
+### Phase 3 (Planned)
 - Online payment / deposit for reservations
 - Pre-order / full online ordering
 - Multi-outlet support
@@ -387,7 +387,7 @@ vercel
 
 ---
 
-## 📝 Documentation
+## Documentation
 
 - **[PRD](PRD-Website-Cafe.md)** - Product Requirements Document
 - **[Sprint Planning](SPRINT.md)** - Development sprint log
@@ -405,20 +405,20 @@ This is a commercial project for Menes Coffee & Eatery. For internal development
 
 ---
 
-## 📄 License
+## License
 
 Proprietary - All rights reserved by Menes Coffee & Eatery
 
 ---
 
-## 👤 Author
+## Author
 
 **Rindang Alam Nur Muhammad**  
 GitHub: [@rindangalam](https://github.com/rindangalam)
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Built with:
 - [Vue.js](https://vuejs.org/) - Progressive JavaScript framework
@@ -428,7 +428,7 @@ Built with:
 
 ---
 
-## 📧 Contact
+## Contact
 
 **Menes Coffee & Eatery - Padang**
 - Address: Jl. Kartini No. 24, Padang Pasir, Kec. Padang Barat
